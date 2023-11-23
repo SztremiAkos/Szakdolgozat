@@ -5,8 +5,8 @@ export type PredictRequest = {
     modelParams: number[]
 }
 export type Response = {
-    expected: number[]
-    predicted: number[]
+    expected: number[][]
+    predicted: number[][]
 }
 
 export const DefaultResponse: Response = {
