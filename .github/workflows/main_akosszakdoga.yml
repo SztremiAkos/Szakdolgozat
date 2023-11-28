@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Enter directory
-      - run: cd szakdogaBe
+        run: cd szakdogaBe
 
       - uses: actions/checkout@v4
 
