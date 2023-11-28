@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Enter directory
+      - run: cd szakdogaBe
+
       - uses: actions/checkout@v4
 
       - name: Set up Python version
