@@ -1,23 +1,20 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import systems from "../../configs/systemConfig";
 import { RefObject, createRef, useEffect, useState } from "react";
+import Loader from "../../components/Loader";
+import Page from "../../components/Page";
 
 type Props = {
   setSelectedSystem: (system: string) => void;
   onPredict: (params: number[]) => void;
   selectedSystem: string;
+  isLoading: boolean;
 };
 const PredictPage = (props: Props) => {
-  const { setSelectedSystem, onPredict, selectedSystem } = props;
+  const { setSelectedSystem, onPredict, selectedSystem, isLoading } = props;
 
   const [inputFields, setInputFields] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [inputRefs, setInputRefs] = useState<RefObject<any>[]>([]);
 
   useEffect(() => {
@@ -28,6 +25,7 @@ const PredictPage = (props: Props) => {
       setInputFields([]);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setInputRefs((elRefs: any) =>
       Array(inputFields.length)
         .fill(0)
@@ -35,14 +33,9 @@ const PredictPage = (props: Props) => {
     );
   }, [inputFields.length, selectedSystem]);
   return (
-    <Card
-      variant="outlined"
-      style={{
-        height: "90%",
-        padding: "5rem",
-      }}
-    >
-      <CardContent>
+    <>
+      {isLoading && <Loader />}
+      <Page title="Predict">
         <Box>
           <Box
             sx={{
@@ -77,11 +70,9 @@ const PredictPage = (props: Props) => {
             {selectedSystem && (
               <>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={() =>
-                    onPredict(
-                      inputRefs.map((ref) => ref.current.value)
-                    )
+                    onPredict(inputRefs.map((ref) => ref.current.value))
                   }
                 >
                   Predict
@@ -90,8 +81,8 @@ const PredictPage = (props: Props) => {
             )}
           </Box>
         </Box>
-      </CardContent>
-    </Card>
+      </Page>
+    </>
   );
 };
 
