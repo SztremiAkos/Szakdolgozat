@@ -23,7 +23,9 @@ jobs:
           python-version: '3.9'
 
       - name: Enter directory
-        run: cd szakdogaBe
+        run: |
+          cd szakdogaBe
+          ls
       
       - name: Create and start virtual environment
         run: |
