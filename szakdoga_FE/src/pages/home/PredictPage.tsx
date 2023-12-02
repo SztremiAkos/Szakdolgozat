@@ -16,6 +16,7 @@ const PredictPage = (props: Props) => {
   const [inputFields, setInputFields] = useState<string[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [inputRefs, setInputRefs] = useState<RefObject<any>[]>([]);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     const system = systems.filter((a) => a.name === selectedSystem)[0];
@@ -32,6 +33,12 @@ const PredictPage = (props: Props) => {
         .map((_, i) => elRefs[i] || createRef())
     );
   }, [inputFields.length, selectedSystem]);
+
+  const onInputChange = () =>
+    setIsDisabled(
+      inputRefs.map((ref) => ref.current.value).filter((a) => a.length > 0)
+        .length !== inputRefs.length
+    );
   return (
     <>
       {isLoading && <Loader />}
@@ -63,6 +70,7 @@ const PredictPage = (props: Props) => {
                   type="number"
                   label={label}
                   inputRef={inputRefs[index]}
+                  onChange={onInputChange}
                   sx={{ width: 300 }}
                 ></TextField>
               );
@@ -71,6 +79,7 @@ const PredictPage = (props: Props) => {
               <>
                 <Button
                   variant="contained"
+                  disabled={isDisabled}
                   onClick={() =>
                     onPredict(inputRefs.map((ref) => ref.current.value))
                   }

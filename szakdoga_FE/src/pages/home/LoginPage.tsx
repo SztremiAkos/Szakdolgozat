@@ -8,21 +8,17 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onLogin = (e: any) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
+      .then(() => {
         navigate("/predict");
-        console.log(user);
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .catch(() => {
+        setError("Invalid email address or password");
       });
   };
 
@@ -62,6 +58,7 @@ const LoginPage = () => {
             autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && <Typography color="red">{error}</Typography>}
           <Button
             type="submit"
             fullWidth
