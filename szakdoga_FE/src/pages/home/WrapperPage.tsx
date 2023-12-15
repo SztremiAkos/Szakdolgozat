@@ -15,14 +15,17 @@ const WrapperPage = () => {
       modelParams,
     };
     setIsloading(true);
-    setResults(await predict(req));
+    const response = await predict(req);
+    if (response) {
+      setResults(response)
+      setPredictIsDone(true);
+    }
     setIsloading(false);
-    setPredictIsDone(true);
   };
   const onBack = () => {
     setPredictIsDone(false);
     setSelectedSystem("");
-  }
+  };
   const updateSelectedSystem = (system: string) => setSelectedSystem(system);
 
   return isPredictDone ? (
